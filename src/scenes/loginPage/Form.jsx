@@ -16,6 +16,7 @@ import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 
+// these schema would be used to check if the entered values in the form are valid or not
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
@@ -31,6 +32,7 @@ const loginSchema = yup.object().shape({
   password: yup.string().required("required"),
 });
 
+// we are using formik to create login/register form, which makes it easier to handle the states of register/login form. 
 const initialValuesRegister = {
   firstName: "",
   lastName: "",
@@ -48,6 +50,8 @@ const initialValuesLogin = {
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
+  const [cloudPicUrl,setCloudPicUrl] = useState("")
+  const [imageUploaded,setImageUploaded] = useState(false);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,13 +59,33 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  const handleUpload = async (values) => {
+    const imageData = new FormData();
+    imageData.append("file", values)
+    imageData.append("upload_preset","social-sphere")
+    imageData.append("cloud_name","drpqiy5c5")
+
+    await fetch("https://api.cloudinary.com/v1_1/drpqiy5c5/image/upload", {
+      method: "post",
+      body: imageData
+      }) 
+      .then((res)=> res.json())
+      .then((data)=>{
+        console.log(data);
+        setCloudPicUrl(data.secure_url);
+        setImageUploaded(true);
+      })
+      .catch((err)=>console.log(err))
+  }
+
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
     }
-    formData.append("picturePath", values.picture.name);
+    console.log("cloudPicUrl",cloudPicUrl);
+    formData.append("picturePath", cloudPicUrl);
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
@@ -72,6 +96,8 @@ const Form = () => {
     );
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
+    setCloudPicUrl("");
+    setImageUploaded(false);
 
     if (savedUser) {
       setPageType("login");
@@ -234,7 +260,21 @@ const Form = () => {
 
           {/* BUTTONS */}
           <Box>
-            <Button
+            {(isRegister && !imageUploaded && values.picture) ? 
+            (<Button
+              fullWidth
+              onClick={()=>handleUpload(values.picture)}
+              sx={{
+                m: "2rem 0",
+                p: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
+              }}
+            >
+              UPLOAD PROFILE PICTURE
+            </Button>)
+            : (<Button
               fullWidth
               type="submit"
               sx={{
@@ -246,7 +286,7 @@ const Form = () => {
               }}
             >
               {isLogin ? "LOGIN" : "REGISTER"}
-            </Button>
+            </Button>)}
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");

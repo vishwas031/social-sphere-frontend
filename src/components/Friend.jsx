@@ -3,10 +3,11 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends } from "state";
+
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-import { useEffect } from "react";
 
+// this component will be used to add/remove any user as his/her friend and update the friend state in redux and change the friends lilst accordingly
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,8 +20,10 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
+  // checking in the redux state if the friendId is already friend of user
   const isFriend = Array.isArray(friends) ? friends?.find((friend) => friend._id === friendId) : 0;
 
+  // function to add/remove a friend
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:3001/users/${_id}/${friendId}`,
@@ -66,12 +69,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       </FlexBetween>
       <IconButton
         onClick={() => patchFriend()}
-        sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+        sx={{ backgroundColor: primaryLight, p: "0.6rem"}}
       >
         {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          <PersonRemoveOutlined sx={{ color: primaryDark}} />
         ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
+          <PersonAddOutlined sx={{ color: primaryDark}} />
         )}
       </IconButton>
     </FlexBetween>

@@ -29,6 +29,8 @@ import {
     const dispatch = useDispatch();
     const [isImage, setIsImage] = useState(false);
     const [image, setImage] = useState(null);
+    const [cloudPicUrl, setCloudPicUrl] = useState("");
+    const [imageUploaded,setImageUploaded] = useState(false);
     const [post, setPost] = useState("");
     const { palette } = useTheme();
     const { _id } = useSelector((state) => state.user);
@@ -37,15 +39,33 @@ import {
     const mediumMain = palette.neutral.mediumMain;
     const medium = palette.neutral.medium;
   
+    const handleUpload = async () => {
+      const imageData = new FormData();
+      imageData.append("file", image)
+      imageData.append("upload_preset","social-sphere")
+      imageData.append("cloud_name","drpqiy5c5")
+
+      await fetch("https://api.cloudinary.com/v1_1/drpqiy5c5/image/upload", {
+        method: "post",
+        body: imageData
+        }) 
+        .then((res)=> res.json())
+        .then((data)=>{
+          console.log(data);
+          setCloudPicUrl(data.secure_url);
+          setImageUploaded(true);
+        })
+        .catch((err)=>console.log(err))
+    }
     const handlePost = async () => {
       const formData = new FormData();
       formData.append("userId", _id);
       formData.append("description", post);
+      console.log(image)
       if (image) {
         formData.append("picture", image);
-        formData.append("picturePath", image.name);
+        formData.append("picturePath", cloudPicUrl);
       }
-  
       const response = await fetch(`http://localhost:3001/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -55,6 +75,8 @@ import {
       dispatch(setPosts({ posts }));
       setImage(null);
       setPost("");
+      setCloudPicUrl("");
+      setImageUploaded(false);
     };
   
     return (
@@ -70,6 +92,7 @@ import {
               backgroundColor: palette.neutral.light,
               borderRadius: "2rem",
               padding: "1rem 2rem",
+              position:"static",
             }}
           />
         </FlexBetween>
@@ -153,18 +176,36 @@ import {
               <MoreHorizOutlined sx={{ color: mediumMain }} />
             </FlexBetween>
           )}
-  
-          <Button
+          <div>
+          {
+            imageUploaded ?
+            (<Button
             disabled={!post}
             onClick={handlePost}
             sx={{
               color: palette.background.alt,
               backgroundColor: palette.primary.main,
               borderRadius: "3rem",
+              position:"static",
             }}
           >
             POST
-          </Button>
+          </Button>)
+            :
+          (<Button
+          disabled={!image}
+          onClick={handleUpload}
+          sx={{
+            color: palette.background.alt,
+            backgroundColor: palette.primary.main,
+            borderRadius: "3rem",
+            position:"static",
+          }}
+        >
+          Upload Image
+        </Button>)
+          }
+          </div>
         </FlexBetween>
       </WidgetWrapper>
     );
