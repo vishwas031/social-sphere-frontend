@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "theme";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // here we are grabbing the mode that is stored in the redux store
@@ -20,6 +22,7 @@ function App() {
       <ThemeProvider theme={theme}>
         {/* this helps to reset the CSS in materialUI */}
         <CssBaseline/>
+        <ToastContainer />
         <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route

@@ -24,6 +24,7 @@ import {
   import { useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
   import { setPosts } from "state";
+import { toast } from "react-toastify";
   
   const MyPostWidget = ({ picturePath }) => {
     const dispatch = useDispatch();
@@ -54,8 +55,12 @@ import {
           console.log(data);
           setCloudPicUrl(data.secure_url);
           setImageUploaded(true);
+          toast.success("Image uploaded.")
         })
-        .catch((err)=>console.log(err))
+        .catch((err)=>{
+          toast.error("Error uploading the image.")
+          return;
+        })
     }
     const handlePost = async () => {
       const formData = new FormData();
@@ -77,6 +82,7 @@ import {
       setPost("");
       setCloudPicUrl("");
       setImageUploaded(false);
+      toast.success("Post created.")
     };
   
     return (

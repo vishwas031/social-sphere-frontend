@@ -12,6 +12,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import {toast} from "react-toastify"
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
@@ -59,6 +60,7 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  // this function uploads the image to cloudinary and returns a link to that hosted image
   const handleUpload = async (values) => {
     const imageData = new FormData();
     imageData.append("file", values)
@@ -74,8 +76,12 @@ const Form = () => {
         console.log(data);
         setCloudPicUrl(data.secure_url);
         setImageUploaded(true);
+        toast.success("Pic uploaded successfully!!");
       })
-      .catch((err)=>console.log(err))
+      .catch((err)=>{
+        toast.error("Error! uploading the pic. Retry");
+        return;
+      })
   }
 
   const register = async (values, onSubmitProps) => {
@@ -98,6 +104,7 @@ const Form = () => {
     onSubmitProps.resetForm();
     setCloudPicUrl("");
     setImageUploaded(false);
+    toast.success("yeyy!! registered successfully.")
 
     if (savedUser) {
       setPageType("login");
@@ -119,6 +126,7 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+      toast.success(`Hello ${loggedIn.user.firstName}`)
       navigate("/home");
     }
   };
