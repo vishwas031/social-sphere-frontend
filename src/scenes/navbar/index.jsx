@@ -22,7 +22,7 @@ import {
 } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 
 const Navbar = () => {
@@ -42,7 +42,7 @@ const Navbar = () => {
 
     const fullName = `${user.firstName} ${user.lastName}`;
 
-    return <FlexBetween padding="1rem 6%" backgroundColor={alt} position="fixed" width="100%" zIndex="10">
+    return <FlexBetween padding="1rem 6%" height="90px" backgroundColor={alt} position="fixed" width="100%" zIndex="10">
         <FlexBetween gap="1.75rem">
             <Typography
                 fontWeight="bold"
@@ -86,7 +86,9 @@ const Navbar = () => {
                         <LightMode sx={{ color: dark, fontSize: "25px"}}/>
                     )}
                 </IconButton>
+                <Link to={`/messenger`}>
                 <Message sx={{fontSize: "25px"}}/>
+                </Link>
                 <Notifications sx={{fontSize: "25px"}}/>
                 <Help sx={{fontSize: "25px"}}/>
                 {/* this will be for our drop from the top right to see the users profile */}
