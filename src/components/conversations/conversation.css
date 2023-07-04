@@ -1,14 +1,8 @@
 .conversation {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 1rem 0.5rem;
     cursor: pointer;
-    margin-top: 20px;
-    border-radius: 1rem;
-  }
-  
-  .conversation:hover {
-    background-color: rgba(181, 181, 181, 0.269);
   }
   
   .conversationImg {
@@ -22,6 +16,14 @@
   .conversationName {
     font-weight: 500;
     font-size: 1rem;
+  }
+
+  .activeCoversation{
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    background-color: #8181817c;
+    cursor: pointer;
   }
   
   @media screen and (max-width: 768px) {

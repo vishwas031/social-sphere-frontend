@@ -1,8 +1,12 @@
 import axios from "axios";
-
+import { Box, useTheme, Divider } from "@mui/material";
 import "./chatOnline.css";
 
 const ChatOnline= ({ onlineUsers, currentId, setCurrentChat }) => {
+  
+  const { palette } = useTheme();
+  const dark = palette.neutral.dark;
+  
   const handleClick = async (user) => {
     try {
       const res = await axios.get(
@@ -15,9 +19,25 @@ const ChatOnline= ({ onlineUsers, currentId, setCurrentChat }) => {
   };
 
   return (
-    <div className="chatOnline">
+    <Box className="chatOnline">
       {onlineUsers.map((o) => (
-        <div className="chatOnlineFriend" key={o._id} onClick={()=>handleClick(o)}>
+        <>
+        <Divider/>
+        <Typography
+        variant="h4"
+        color={dark}
+        fontWeight="500"
+        padding={1}
+        sx={{
+          "&:hover": {
+            color: palette.primary.light,
+            cursor: "pointer",
+          },
+        }} 
+        className="chatOnlineFriend" 
+        key={o._id} 
+        onClick={()=>handleClick(o)}
+        >
           <div className="chatOnlineImgContainer">
             <img
               className="chatOnlineImg"
@@ -27,9 +47,11 @@ const ChatOnline= ({ onlineUsers, currentId, setCurrentChat }) => {
             <div className="chatOnlineBadge"></div>
           </div>
           <span className="chatOnlineName">{o?.firstName}</span>
-        </div>
+        </Typography>
+        <Divider/>
+        </>
       ))}
-    </div>
+    </Box>
   );
 }
 

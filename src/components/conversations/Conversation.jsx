@@ -2,12 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./conversation.css";
 import { useSelector } from "react-redux";
+import { Typography, useTheme } from "@mui/material";
 
 
-export default function Conversation({ conversation, currentUser }) {
+export default function Conversation({ conversation, currentUser, active}) {
   const [user, setUser] = useState(null);
   const token = useSelector((state) => state.token);
 
+  const { palette } = useTheme();
 
   useEffect(() => {
     const friendId = conversation.member.find((m) => m !== currentUser._id);
@@ -28,13 +30,21 @@ export default function Conversation({ conversation, currentUser }) {
   }, [currentUser, conversation, token]);
 
   return (
-    <div className="conversation">
+    <Typography 
+    className={active ? "activeCoversation" : "conversation"}
+    sx={{
+      "&:hover": {
+        color: palette.primary.light,
+        cursor: "pointer",
+      },
+    }} 
+    >
       <img
         className="conversationImg"
         src={user?.picturePath}
         alt=""
       />
       <span className="conversationName">{user?.firstName}</span>
-    </div>
+    </Typography>
   );
 }

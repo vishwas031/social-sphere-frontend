@@ -1,4 +1,5 @@
 import "./messenger.css";
+import { Box, useMediaQuery, Typography, useTheme, Divider, InputBase } from "@mui/material";
 import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/ChatOnline";
@@ -7,8 +8,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { io } from "socket.io-client";
 import Navbar from "scenes/navbar";
+import WidgetWrapper from "components/WidgetWrapper";
 
 export default function Messenger() {
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+
+  const { palette } = useTheme();
+  const dark = palette.neutral.dark;
+
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -114,39 +121,58 @@ export default function Messenger() {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
   return (
     <>
       <Navbar />
       <div className="messenger">
-        <div className="chatMenu">
-          <div className="chatMenuWrapper">
+        <Box className="chatMenu" flexBasis={isNonMobileScreens ? "20%" : undefined}>
+          <WidgetWrapper className="chatMenuWrapper">
             {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
+            <div className="sideTitle">Conversations</div>
             {conversations.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} key={c._id}/>
-              </div>
+              <>
+              <Divider/>
+              <Typography
+              variant="h4"
+              color={dark}
+              fontWeight="500"
+              sx={{
+                "&:hover": {
+                  color: palette.primary.main,
+                  cursor: "pointer",
+                },
+              }} onClick={() => setCurrentChat(c)}>
+                <Conversation conversation={c} currentUser={user} key={c._id} active={currentChat!=null ? true : false}/>
+              </Typography>
+              <Divider/>
+              </>
             ))}
-          </div>
-        </div>
-        <div className="chatBox">
+          </WidgetWrapper>
+        </Box>
+        <WidgetWrapper className="chatBox" flexBasis={isNonMobileScreens ? "54%" : undefined}
+          mt={isNonMobileScreens ? undefined : "2rem"}>
           <div className="chatBoxWrapper">
             {currentChat ? (
               <>
                 <div className="chatBoxTop">
                   {messages.map((m) => (
                     <div ref={scrollRef}>
-                      <Message message={m} own={m.sender === user._id} key={m._id}/>
+                      <Message conversation={currentChat} message={m} own={m.sender === user._id} key={m._id}/>
                     </div>
                   ))}
                 </div>
                 <div className="chatBoxBottom">
-                  <textarea
+                  <InputBase
                     className="chatMessageInput"
                     placeholder="write something..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
-                  ></textarea>
+                    sx={{
+                      width: "90%",
+                      backgroundColor: palette.neutral.light,
+                      borderRadius: "8px",
+                    }}
+                  ></InputBase>
                   <button className="chatSubmitButton" onClick={handleSubmit}>
                     Send
                   </button>
@@ -158,12 +184,12 @@ export default function Messenger() {
               </span>
             )}
           </div>
-        </div>
-        <div className="chatOnline">
-          <div className="chatOnlineWrapper">
+        </WidgetWrapper>
+        <Box className="chatOnline" flexBasis="20%">
+          <WidgetWrapper className="chatOnlineWrapper" paddingTop={2}>
             {onlineUsers.length ? 
             <>
-              <span className="leftTitle">Online</span>
+              <div className="sideTitle">Online</div>
               <ChatOnline
                 onlineUsers={onlineUsers}
                 currentId={user._id}
@@ -173,8 +199,8 @@ export default function Messenger() {
           :
           <span className="leftTitle">No one is online</span>
           }
-          </div>
-        </div>
+          </WidgetWrapper>
+        </Box>
       </div>
     </>
   );

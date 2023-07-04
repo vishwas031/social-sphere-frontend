@@ -1,11 +1,12 @@
 .message {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 0.75rem;
   }
   
   .messageTop{
       display: flex;
+      align-items: center;
   }
   
   .messageImg {
@@ -19,14 +20,15 @@
   .messageText{
       padding: 10px;
       border-radius: 20px;
-      background-color: #1877f2;
-      color: white;
+      background-color: #00D5FA;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgb(54, 54, 54);
       max-width: 300px;
   }
   
   .messageBottom{
       font-size: 12px;
-      margin-top: 10px;
   }
   
   .message.own{
@@ -34,6 +36,6 @@
   }
   
   .message.own .messageText{
-      background-color: rgb(245, 241, 241);
-      color: black;
+      background-color: #C2C2C2;
+      color: rgb(54, 54, 54);
   }
