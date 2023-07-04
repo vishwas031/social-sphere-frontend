@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Box, useTheme, Divider } from "@mui/material";
+import { Box, useTheme, Divider, Typography } from "@mui/material";
 import "./chatOnline.css";
 
 const ChatOnline= ({ onlineUsers, currentId, setCurrentChat }) => {

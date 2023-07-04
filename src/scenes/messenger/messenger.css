@@ -1,5 +1,5 @@
 .messenger {
-    height: calc(100vh - 70px);
+    height: calc(100vh);
     padding: 7rem 4% 2rem 4%;
     display: flex;
   }
@@ -108,7 +108,8 @@
   
   @media screen and (max-width: 768px) {
     .chatMenu {
-      flex: 1;
+      /* flex: 1; */
+      display: none;
     }
   
     .chatMenuInput {

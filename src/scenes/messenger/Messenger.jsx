@@ -149,8 +149,7 @@ export default function Messenger() {
             ))}
           </WidgetWrapper>
         </Box>
-        <WidgetWrapper className="chatBox" flexBasis={isNonMobileScreens ? "54%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}>
+        <WidgetWrapper className="chatBox" flexBasis={isNonMobileScreens ? "54%" : undefined}>
           <div className="chatBoxWrapper">
             {currentChat ? (
               <>
@@ -185,7 +184,7 @@ export default function Messenger() {
             )}
           </div>
         </WidgetWrapper>
-        <Box className="chatOnline" flexBasis="20%">
+        {isNonMobileScreens && <Box className="chatOnline" flexBasis="20%">
           <WidgetWrapper className="chatOnlineWrapper" paddingTop={2}>
             {onlineUsers.length ? 
             <>
@@ -200,7 +199,7 @@ export default function Messenger() {
           <span className="leftTitle">No one is online</span>
           }
           </WidgetWrapper>
-        </Box>
+        </Box>}
       </div>
     </>
   );

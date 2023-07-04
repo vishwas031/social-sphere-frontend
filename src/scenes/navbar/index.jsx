@@ -164,7 +164,9 @@ const Navbar = () => {
                         <LightMode sx={{ color: dark, fontSize: "25px"}}/>
                     )}
                 </IconButton>
-                <Message sx={{fontSize: "25px"}}/>
+                <Link to={`/messenger`}>
+                    <Message sx={{fontSize: "25px", color: dark}}/>
+                </Link>
                 <Notifications sx={{fontSize: "25px"}}/>
                 <Help sx={{fontSize: "25px"}}/>
                 {/* this will be for our drop from the top right to see the users profile */}
