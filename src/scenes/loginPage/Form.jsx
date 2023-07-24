@@ -73,7 +73,6 @@ const Form = () => {
       }) 
       .then((res)=> res.json())
       .then((data)=>{
-        console.log(data);
         setCloudPicUrl(data.secure_url);
         setImageUploaded(true);
         toast.success("Pic uploaded successfully!!");
@@ -90,14 +89,17 @@ const Form = () => {
     for (let value in values) {
       formData.append(value, values[value]);
     }
-    console.log("cloudPicUrl",cloudPicUrl);
     formData.append("picturePath", cloudPicUrl);
 
+    var object = {};
+    formData.forEach((value, key) => object[key] = value);
+    
     const savedUserResponse = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/auth/register`,
       {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(object),
       }
     );
     const savedUser = await savedUserResponse.json();
@@ -118,8 +120,9 @@ const Form = () => {
       body: JSON.stringify(values),
     });
     const loggedIn = await loggedInResponse.json();
+    console.log(loggedIn);
     onSubmitProps.resetForm();
-    if (loggedIn) {
+    if (loggedIn.token) {
       dispatch(
         setLogin({
           user: loggedIn.user,
@@ -128,6 +131,9 @@ const Form = () => {
       );
       toast.success(`Hello ${loggedIn.user.firstName}`)
       navigate("/home");
+    }
+    else{
+      toast.error(`${loggedIn.msg}`)
     }
   };
 

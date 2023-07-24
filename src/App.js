@@ -12,16 +12,21 @@ import { themeSettings } from "theme";
 import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 
+  import {
+    Experimental_CssVarsProvider as CssVarsProvider,
+    experimental_extendTheme as extendTheme,
+  } from '@mui/material/styles';
+
 function App() {
   // here we are grabbing the mode that is stored in the redux store
   const mode = useSelector((state)=> state.mode);
-  const theme = useMemo(()=> createTheme(themeSettings(mode)), [mode]);
+  const theme = useMemo(()=> extendTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.token));
 
   return (
     <div className="App">
       <BrowserRouter>
-      <ThemeProvider theme={theme}>
+      <CssVarsProvider theme={theme}>
         {/* this helps to reset the CSS in materialUI */}
         <CssBaseline/>
         <ToastContainer />
@@ -47,7 +52,7 @@ function App() {
             errorElement= {<ErrorPage />}
             />
           </Routes>
-      </ThemeProvider>
+      </CssVarsProvider>
       </BrowserRouter>
     </div>
   );

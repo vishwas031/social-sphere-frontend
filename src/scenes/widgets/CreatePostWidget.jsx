@@ -71,10 +71,17 @@ import { toast } from "react-toastify";
         formData.append("picture", image);
         formData.append("picturePath", cloudPicUrl);
       }
+
+      var object = {};
+    formData.forEach((value, key) => object[key] = value);
+
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/posts`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+        headers: { 
+          Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json" 
+      },
+        body: JSON.stringify(object),
       });
       const posts = await response.json();
       dispatch(setPosts({ posts }));

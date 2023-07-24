@@ -142,7 +142,7 @@ export default function Messenger() {
                   cursor: "pointer",
                 },
               }} onClick={() => setCurrentChat(c)}>
-                <Conversation conversation={c} currentUser={user} key={c._id} active={currentChat!=null ? true : false}/>
+                <Conversation conversation={c} currentUser={user} key={c._id} active={currentChat===c ? true : false}/>
               </Typography>
               <Divider/>
               </>

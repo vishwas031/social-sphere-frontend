@@ -8,7 +8,7 @@ import {
   import FlexBetween from "components/FlexBetween";
   import Friend from "components/Friend";
   import WidgetWrapper from "components/WidgetWrapper";
-  import { useState } from "react";
+  import {  useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
   import { setPost } from "state";
   
@@ -27,8 +27,8 @@ import {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const loggedInUserId = useSelector((state) => state.user._id);
-    const isLiked = Boolean(likes[loggedInUserId]);
-    const likeCount = Object.keys(likes).length;
+    const [isLiked,setIsLiked] = useState(Boolean(likes[loggedInUserId]));
+    const [likeCount,setLikeCount] = useState(Object.keys(likes).length);
   
     const { palette } = useTheme();
     const main = palette.neutral.main;
@@ -43,6 +43,8 @@ import {
         },
         body: JSON.stringify({ userId: loggedInUserId }),
       });
+      setIsLiked(!isLiked);
+      isLiked ? setLikeCount(likeCount-1) : setLikeCount(likeCount+1);
       const updatedPost = await response.json();
       dispatch(setPost({ post: updatedPost }));
     };
@@ -55,7 +57,7 @@ import {
           subtitle={location}
           userPicturePath={userPicturePath}
         />
-        <Typography color={main} sx={{ mt: "1rem" }}>
+        <Typography color={main} sx={{ mt: "1rem", fontSize: "1.2rem" }}>
           {description}
         </Typography>
         {picturePath && (

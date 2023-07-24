@@ -14,7 +14,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    // saving the posts in the order of there time of creation.
+    dispatch(setPosts({ posts: data.reverse() }));
   };
 
   const getUserPosts = async () => {
@@ -26,7 +27,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       }
     );
     const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    dispatch(setPosts({ posts: data.reverse() }));
   };
 
   useEffect(() => {

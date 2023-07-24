@@ -27,6 +27,16 @@ export const colorTokens = {
       800: "#00353F",
       900: "#001519",
     },
+    myColors: {
+      50: "#080429",
+      100: "#040217",
+      200: "rgba(26, 33, 42, 0.75)",
+      300: "rgba(255, 255, 255, 0.125)",
+      500: "rgba(209, 213, 219, 0.3)",
+      600: "rgba(255, 255, 255, 0.75)",
+      700: "#ced9f5",
+      800: "#b0c5f7",
+    }
   };
   
   // MUI THEME SETTINGS
@@ -50,8 +60,10 @@ export const colorTokens = {
                 light: colorTokens.grey[700],
               },
               background: {
-                default: colorTokens.grey[900],
-                alt: colorTokens.grey[800],
+                default: colorTokens.myColors[50],
+                alt: colorTokens.myColors[100],
+                card: colorTokens.myColors[200],
+                border: colorTokens.myColors[300],
               },
             }
           : {
@@ -69,8 +81,10 @@ export const colorTokens = {
                 light: colorTokens.grey[50],
               },
               background: {
-                default: colorTokens.grey[10],
-                alt: colorTokens.grey[0],
+                default: colorTokens.myColors[800],
+                alt: "#ced9f5",
+                card: colorTokens.myColors[600],
+                border: colorTokens.myColors[500],
               },
             },
       },

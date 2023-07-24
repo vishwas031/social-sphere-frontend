@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // this state will be stored globally and can be used at any instance of time while navigating to different pages
 const intialState = {
     // for dark/light mode
-    mode: "light",
+    mode: "dark",
     user: null,
     token: null,
     // posts to be shown
