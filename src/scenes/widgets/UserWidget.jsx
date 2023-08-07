@@ -4,7 +4,6 @@ import {
     WorkOutlineOutlined,
   } from "@mui/icons-material";
   import { Box, Typography, Divider, useTheme } from "@mui/material";
-  import './glass-morph.css';
   import UserImage from "components/UserImage";
   import FlexBetween from "components/FlexBetween";
   import WidgetWrapper from "components/WidgetWrapper";
