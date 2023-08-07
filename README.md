@@ -48,3 +48,8 @@ SocialConnect is a dynamic MERN (MongoDB, Express.js, React, Node.js) project th
 5. Run the socket server: run `npm start`
 
 ## Screenshots
+<img src="./public/1.png" style="margin-top: 30px"  align='center'>
+<img src="./public/2.png" style="margin-top: 30px"  align='center'>
+<img src="./public/3.png" style="margin-top: 30px"  align='center'>
+<img src="./public/4.png" style="margin-top: 30px"  align='center'>
+<img src="./public/5.png" style="margin-top: 30px"  align='center'>

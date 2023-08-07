@@ -48,7 +48,6 @@ import {
     } = user;
   
     return (
-      // <div className="glass-card">
       <WidgetWrapper>
         {/* FIRST ROW */}
         <FlexBetween
